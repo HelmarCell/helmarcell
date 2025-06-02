@@ -508,6 +508,10 @@ body {
     .hero-image img {
         max-width: 600px;
     }
+
+    .qrcode-container {
+        width: 350px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -684,6 +688,17 @@ body {
     #sobre h2 {
         font-size: 1.8rem;
         padding: 8px 15px;
+    }
+
+    .contact-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .qrcode-container {
+        width: 100%;
+        max-width: 400px;
+        margin: 20px auto 0;
     }
 }
 
@@ -909,4 +924,61 @@ body {
 .section-blue p,
 .section-blue li {
     color: inherit;
+}
+
+/* Contato com QR Code */
+.contact-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    width: 100%;
+}
+
+.contact-info {
+    flex: 1;
+    max-width: 600px;
+}
+
+.qrcode-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    margin-left: auto;
+    flex-shrink: 0;
+    width: 400px;
+}
+
+.qrcode-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.qrcode-text {
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .contact-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .contact-info {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .qrcode-container {
+        width: 100%;
+        max-width: 400px;
+        margin: 20px auto 0;
+    }
 } 
