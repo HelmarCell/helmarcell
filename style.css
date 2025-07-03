@@ -79,7 +79,7 @@ body {
 
 /* Hero Section */
 .hero {
-    background: var(--primary-color);
+    /* background: var(--primary-color); */
     color: var(--white);
     padding: 60px 0;
     position: relative;
@@ -93,7 +93,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, #003B95 0%, #002670 100%);
+    background: rgba(0, 30, 60, 0.55); /* overlay escuro translúcido */
     z-index: 1;
 }
 
