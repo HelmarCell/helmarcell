@@ -1,100 +1,82 @@
-// Menu mobile
-const navToggle = document.querySelector('.nav-toggle');
-const navMenu = document.querySelector('.nav-menu');
+/* =========================================================================
+   H-Cell Assistência Técnica - JavaScript
+   ========================================================================= */
 
-if (navToggle) {
-    navToggle.addEventListener('click', () => {
-        navToggle.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
-}
-
-// Fechar menu ao clicar em um link
-document.querySelectorAll('.nav-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-        navToggle.classList.remove('active');
-        navMenu.classList.remove('active');
-    });
-});
-
-// Smooth scroll para links internos
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth'
+   document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Controle do Menu Mobile
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('open');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Fechar menu ao clicar em um link
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('open');
+                navMenu.classList.remove('active');
             });
+        });
+    }
+
+    // 2. Efeito Glassmorphism no Header durante o Scroll
+    const header = document.querySelector('.header');
+    
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
         }
     });
-});
 
-// Detectar scroll para adicionar classe no header
-const header = document.querySelector('.header');
-let lastScroll = 0;
-
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-
-    if (currentScroll <= 0) {
-        header.classList.remove('scrolled');
-        return;
-    }
-
-    if (currentScroll > lastScroll && !header.classList.contains('scrolled')) {
-        header.classList.add('scrolled');
-    } else if (currentScroll < lastScroll && header.classList.contains('scrolled')) {
-        header.classList.remove('scrolled');
-    }
-
-    lastScroll = currentScroll;
-});
-
-// Formulário de contato
-const form = document.getElementById('formContato');
-const status = document.getElementById('status');
-
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const formData = {
-        nome: document.getElementById('nome').value,
-        email: document.getElementById('email').value,
-        mensagem: document.getElementById('mensagem').value
+    // 3. Reveal com Intersection Observer para melhor performance
+    const revealElements = document.querySelectorAll('.reveal');
+    
+    const revealOptions = {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px"
     };
-
-    // Aqui você pode adicionar a lógica para enviar o formulário para um servidor
-    // Por enquanto, vamos apenas simular um envio bem-sucedido
-    try {
-        // Simula um delay de envio
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // Limpa o formulário
-        form.reset();
-        
-        // Mostra mensagem de sucesso
-        alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
-    } catch (error) {
-        alert('Erro ao enviar mensagem. Por favor, tente novamente.');
-    }
-});
-
-// Animações de scroll
-const observerOptions = {
-    threshold: 0.1
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('animate');
-            observer.unobserve(entry.target);
-        }
+    
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, revealOptions);
+    
+    revealElements.forEach(element => {
+        revealObserver.observe(element);
     });
-}, observerOptions);
+    
+    // 4. Smooth Scrolling para Links Internos
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // Compensar altura do header fixo
+                const headerHeight = document.querySelector('.header').offsetHeight;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
 
-// Observa elementos que devem ser animados
-document.querySelectorAll('.service-card, .accessory-card, .about-content, .contact-wrapper').forEach(el => {
-    observer.observe(el);
-}); 
+});
