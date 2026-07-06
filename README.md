@@ -1,4 +1,4 @@
-# Dashboard de KPIs
+# Página de apresentação
 
 Este projeto trata-se de uma página de apresentação de uma empresa de assistência técnica, para esse projeto usei JS Vanilla, html5 e CSS3.
 
